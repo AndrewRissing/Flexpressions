@@ -1,0 +1,51 @@
+﻿<#@ Template Debug="True" Hostspecific="True" Language="C#" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Import Namespace="System.Linq" #>
+<#@ Output Extension=".cs" #>
+<#@ Include File="Common.ttinc" #>using System;
+using System.Linq.Expressions;
+
+namespace Flexpressions
+{
+	public sealed partial class If<TParent>
+	{
+<#
+/********************************************************************************************/
+/*									ElseIf Methods											*/
+/********************************************************************************************/
+#>
+		#region ElseIf Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Creates the else if block of the if block.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="test">The test to perform for the ElseIf block.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;"/> of the new else if block.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="test"/> is null, the exception is thrown.</exception>
+		public Block<If<TParent>> ElseIf<<#= argumentTypeList #>>(Expression<Func<<#= argumentTypeList #>, bool>> test)
+		{
+			if (test == null)
+				throw new ArgumentNullException("test");
+
+			return this.ElseIfSafe(test.Body);
+		}
+<#
+}
+#>
+
+		#endregion ElseIf Methods
+	}
+}

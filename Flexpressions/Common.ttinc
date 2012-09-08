@@ -1,0 +1,53 @@
+﻿<#@ Assembly Name="System.Core" #>
+<#@ Import Namespace="System.Linq" #>
+//  Flexpressions
+//  Copyright © 2012 Andrew Rissing
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights 
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+//  of the Software, and to permit persons to whom the Software is furnished to do so, 
+//  subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all 
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+//  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+//  FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+//  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+<#+
+
+/* Utility Methods */
+
+private const string GENERIC_TYPE_PARAMETER_FORMAT = "P{0}";
+private const int MAX_NUMBER_OF_GENERIC_PARAMETERS = 16;
+private static readonly string[] ordinalNumbers = new string[MAX_NUMBER_OF_GENERIC_PARAMETERS]
+{
+	"1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th"
+};
+
+/// <summary>
+/// Converts the number to an ordinal number string.
+/// </summary>
+/// <param name="number">The number to convert.</param>
+/// <returns>The number converted to an ordinal number string.</returns>
+private static string ToOrdinalNumbers(int number)
+{
+	return ordinalNumbers[number - 1];
+}
+/// <summary>
+/// Gets the string list of generic type arguments for a generic definition.
+/// </summary>
+/// <param name="genericTypes">The number of generic types.</param>
+/// <param name="format">The format to use for the generic type.</param>
+/// <param name="separator">The separator between each generic type.</param>
+/// <returns>The string list of generic type arguments for a generic definition.</returns>
+private static string GetGenericTypeList(int genericTypes, string format, string separator = ", ")
+{
+	return string.Join(separator, Enumerable.Range(1, genericTypes).Select(n => string.Format(format, n)).ToArray());
+}
+#>

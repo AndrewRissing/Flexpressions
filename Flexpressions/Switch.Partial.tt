@@ -1,0 +1,51 @@
+﻿<#@ Template Debug="True" Hostspecific="True" Language="C#" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Import Namespace="System.Linq" #>
+<#@ Output Extension=".cs" #>
+<#@ Include File="Common.ttinc" #>using System;
+using System.Linq.Expressions;
+
+namespace Flexpressions
+{
+	public sealed partial class Switch<TParent, R>
+	{
+<#
+/********************************************************************************************/
+/*									Case Methods											*/
+/********************************************************************************************/
+#>
+		#region Case Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Creates a new case statement for the switch statement.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="caseValue">The value of the case.</param>
+		/// <returns>The <see cref="SwitchCase&lt;TParent, R&gt;"/> to create the case.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="caseValue"/> is null, the exception is thrown.</exception>
+		public SwitchCase<Switch<TParent, R>, R> Case<<#= argumentTypeList #>>(Expression<Func<<#= argumentTypeList #>, R>> caseValue)
+		{
+			if (caseValue == null)
+				throw new ArgumentNullException("caseValue");
+
+			return this.CaseSafe(caseValue.Body);
+		}
+<#
+}
+#>
+
+		#endregion Case Methods
+	}
+}

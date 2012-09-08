@@ -1,0 +1,423 @@
+﻿<#@ Template Debug="True" Hostspecific="True" Language="C#" #>
+<#@ Assembly Name="System.Core" #>
+<#@ Import Namespace="System.Linq" #>
+<#@ Output Extension=".cs" #>
+<#@ Include File="Common.ttinc" #>using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
+namespace Flexpressions
+{
+	public sealed partial class Block<TParent>
+	{
+<#
+/********************************************************************************************/
+/*										Act Methods											*/
+/********************************************************************************************/
+#>
+		#region Act Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Adds the provided <see cref="Expression"/> to the <see cref="Block&lt;TParent&gt;"/>.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="act">The <see cref="Expression"/> containing the action to add to the <see cref="Block&lt;TParent&gt;"/>.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;"/> to continue adding statements.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="act"/> is null, the exception is thrown.</exception>
+		public Block<TParent> Act<<#= argumentTypeList #>>(Expression<Action<<#= argumentTypeList #>>> act)
+		{
+			if (act == null)
+				throw new ArgumentNullException("act");
+
+			return this.Act(act.Body);
+		}
+<#
+}
+#>
+
+		#endregion Act Methods
+<#
+/********************************************************************************************/
+/*										Do Methods											*/
+/********************************************************************************************/
+#>
+
+		#region Do Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Creates a do loop using the provided inputs.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="condition">The condition, if false, will cause the exit of the loop.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;" /> of the loop.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="condition"/> is null, the exception is thrown.</exception>
+		public Block<Block<TParent>> Do<<#= argumentTypeList #>>(Expression<Func<<#= argumentTypeList #>, bool>> condition)
+		{
+			if (condition == null)
+				throw new ArgumentNullException("condition");
+
+			return this.LoopSafe(condition.Body, false);
+		}
+<#
+}
+#>
+
+		#endregion Do Methods
+<#
+/********************************************************************************************/
+/*										Foreach Methods										*/
+/********************************************************************************************/
+#>
+
+		#region Foreach Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Creates a foreach loop using the provided inputs.
+		/// </summary>
+		/// <typeparam name="V">The type of the loop variable in the foreach loop.</typeparam>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <typeparam name="R">The type of the objects being iterated over.</typeparam>
+		/// <param name="variableName">The variable name of the foreach loop.</param>
+		/// <param name="collection">The collection to iterate over.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;" /> of the loop.</returns>
+		///	<exception cref="ArgumentException">When the <paramref name="variableName"/> is a name that is null, empty, or whitespace, the exception is thrown.</exception>
+		/// <exception cref="ArgumentNullException">If the <paramref name="collection"/> is null, the exception is thrown.</exception>
+		public Block<Block<TParent>> Foreach<V, <#= argumentTypeList #>, R>(string variableName, Expression<Func<<#= argumentTypeList #>, R>> collection) where R : IEnumerable
+		{
+			if (string.IsNullOrWhiteSpace(variableName))
+				throw new ArgumentException("The variable name cannot be null, empty, or whitespace.", "variableName");
+			if (collection == null)
+				throw new ArgumentNullException("collection");
+
+			return this.ForeachSafe(variableName, typeof(V), collection.Body, typeof(R));
+		}
+<#
+}
+#>
+
+		#endregion Foreach Methods
+<#
+/********************************************************************************************/
+/*										If Methods											*/
+/********************************************************************************************/
+#>
+
+		#region If Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Creates an <see cref="If&lt;TParent&gt;"/>, returning its true <see cref="Block&lt;TParent&gt;"/>.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="test">The test to perform for the <see cref="If&lt;TParent&gt;"/> block.</param>
+		/// <returns>The true <see cref="Block&lt;TParent&gt;"/> of the <see cref="If&lt;TParent&gt;"/> block.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="test"/> is null, the exception is thrown.</exception>
+		public Block<If<Block<TParent>>> If<<#= argumentTypeList #>>(Expression<Func<<#= argumentTypeList #>, bool>> test)
+		{
+			if (test == null)
+				throw new ArgumentNullException("test");
+
+			return this.IfSafe(test.Body);
+		}
+<#
+}
+#>
+
+		#endregion If Methods
+<#
+/********************************************************************************************/
+/*										Return Methods										*/
+/********************************************************************************************/
+#>
+
+		#region Return Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Returns the provided value from the <see cref="Block&lt;TParent&gt;"/>.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <typeparam name="R">The return type of the <see cref="Func&lt;<#= argumentTypeList #>, R&gt;"/>.</typeparam>
+		/// <param name="value">The <see cref="Expression"/> to return the value.</param>
+		/// <returns>The <typeparamref name="TParent"/> parent to continue creating the <see cref="Expression"/>.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="value"/> is null, the exception is thrown.</exception>
+		public TParent Return<<#= argumentTypeList #>, R>(Expression<Func<<#= argumentTypeList #>, R>> value)
+		{
+			if (value == null)
+				throw new ArgumentNullException("value");
+
+			return this.ReturnSafe(value.ReturnType, value.Body);
+		}
+<#
+}
+#>
+
+		#endregion Return Methods
+<#
+/********************************************************************************************/
+/*										Set Methods											*/
+/********************************************************************************************/
+#>
+
+		#region Set Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Adds the provided expression to the <see cref="Block&lt;TParent&gt;"/>.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <typeparam name="R">The return type of the <see cref="Func&lt;<#= argumentTypeList #>, R&gt;"/>.</typeparam>
+		/// <param name="variableName">The name of the variable to set a value into.</param>
+		/// <param name="set">The <see cref="Expression"/> containing the action to add to the <see cref="Block&lt;TParent&gt;"/>.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;"/> to continue adding statements.</returns>
+		/// <exception cref="ArgumentException">When the <paramref name="variableName"/> is a name that is null, empty, or whitespace, the exception is thrown.</exception>
+		/// <exception cref="ArgumentNullException">When the <paramref name="set"/> is null, the exception is thrown.</exception>
+		/// <remarks>If the variable provided has yet to be declared, it will automatically be declared.</remarks>
+		public Block<TParent> Set<<#= argumentTypeList #>, R>(string variableName, Expression<Func<<#= argumentTypeList #>, R>> set)
+		{
+			if (string.IsNullOrWhiteSpace(variableName))
+				throw new ArgumentException("The variable name cannot be null, empty, or whitespace.", "variableName");
+			if (set == null)
+				throw new ArgumentNullException("set");
+
+			return this.SetSafe(typeof(R), variableName, set.Body);
+		}
+<#
+}
+#>
+
+		#endregion Set Methods
+<#
+/********************************************************************************************/
+/*									Switch Methods											*/
+/********************************************************************************************/
+#>
+
+		#region Switch Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Inserts a new <see cref="Switch&lt;TParent, R&gt;"/> statement.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <typeparam name="R">The type of the value to switch on.</typeparam>
+		/// <param name="value">The <see cref="Expression"/> to return the value.</param>
+		/// <returns>The <see cref="Switch&lt;TParent, R&gt;"/> to continue constructing the switch expression.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="value"/> is null, the exception is thrown.</exception>
+		public Switch<Block<TParent>, R> Switch<<#= argumentTypeList #>, R>(Expression<Func<<#= argumentTypeList #>, R>> value)
+		{
+			if (value == null)
+				throw new ArgumentNullException("value");
+
+			return this.SwitchSafe<R>(value.Body);
+		}
+<#
+}
+#>
+
+		#endregion Switch Methods
+<#
+/********************************************************************************************/
+/*									Throw Methods											*/
+/********************************************************************************************/
+#>
+
+		#region Throw Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Throws an exception, using the provided expression.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="expression">The expression which will construct the exception to throw.</param>
+		/// <returns>The <typeparamref name="TParent"/> parent to continue creating the <see cref="Expression"/>.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="expression"/> is null, the exception is thrown.</exception>
+		public TParent Throw<<#= argumentTypeList #>>(Expression<Func<<#= argumentTypeList #>, Exception>> expression)
+		{
+			if (expression == null)
+				throw new ArgumentNullException("expression");
+
+			return this.ThrowSafe(expression.Body);
+		}
+<#
+}
+#>
+
+		#endregion Throw Methods
+<#
+/********************************************************************************************/
+/*									Using Methods											*/
+/********************************************************************************************/
+#>
+
+		#region Using Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Adds a using statement to the <see cref="Block&lt;TParent&gt;"/>.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <typeparam name="R">The type of the object to dispose.</typeparam>
+		/// <param name="variableName">The name for the variable to hold the <see cref="IDisposable"/> value.</param>
+		/// <param name="set">The <see cref="Expression"/> to initialize the value of <paramref name="variableName"/>.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;"/> of the using statement to continue adding statements.</returns>
+		/// <exception cref="ArgumentException">When the <paramref name="variableName"/> is a name that is null, empty, or whitespace, the exception is thrown.</exception>
+		/// <exception cref="ArgumentNullException">When the <paramref name="set"/> is null, the exception is thrown.</exception>
+		public Block<Block<TParent>> Using<<#= argumentTypeList #>, R>(string variableName, Expression<Func<<#= argumentTypeList #>, R>> set) where R : IDisposable
+		{
+			if (string.IsNullOrWhiteSpace(variableName))
+				throw new ArgumentException("The variable name cannot be null, empty, or whitespace.", "variableName");
+			if (set == null)
+				throw new ArgumentNullException("set");
+
+			return this.UsingSafe(typeof(R), variableName, set.Body);
+		}
+<#
+}
+#>
+
+		#endregion Using Methods
+<#
+/********************************************************************************************/
+/*									While Methods											*/
+/********************************************************************************************/
+#>
+
+		#region While Methods
+
+<#
+for (int i = 1; i <= MAX_NUMBER_OF_GENERIC_PARAMETERS; ++i)
+{
+	var argumentTypeList = GetGenericTypeList(i, GENERIC_TYPE_PARAMETER_FORMAT);
+#>
+		/// <summary>
+		/// Creates a while loop using the provided inputs.
+		/// </summary>
+<#
+	for (var j = 1; j <= i; j++)
+	{
+#>
+		/// <typeparam name="<#= string.Format(GENERIC_TYPE_PARAMETER_FORMAT, j) #>">The type of the <#= ToOrdinalNumbers(j) #> argument.</typeparam>
+<#
+	}
+#>
+		/// <param name="condition">The condition, if false, will cause the exit of the loop.</param>
+		/// <returns>The <see cref="Block&lt;TParent&gt;" /> of the loop.</returns>
+		/// <exception cref="ArgumentNullException">When the <paramref name="condition"/> is null, the exception is thrown.</exception>
+		public Block<Block<TParent>> While<<#= argumentTypeList #>>(Expression<Func<<#= argumentTypeList #>, bool>> condition)
+		{
+			if (condition == null)
+				throw new ArgumentNullException("condition");
+
+			return this.LoopSafe(condition.Body, true);
+		}
+<#
+}
+#>
+
+		#endregion While Methods
+	}
+}
