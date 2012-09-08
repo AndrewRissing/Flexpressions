@@ -272,6 +272,24 @@ namespace Flexpressions
 			return this.lookupParent.GetReturnLabel();
 		}
 		/// <summary>
+		/// Gets all variables (and parameters) up through the Flexpression tree.
+		/// </summary>
+		/// <returns>The collection of variables (and parameters) up through the Flexpression tree.</returns>
+		public IEnumerable<ParameterExpression> GetVariablesInScope()
+		{
+			if (this.implicitVariables != null)
+			{
+				foreach (var v in this.implicitVariables)
+					yield return v;
+			}
+
+			foreach (var v in this.variables)
+				yield return v;
+
+			foreach (var v in this.lookupParent.GetVariablesInScope())
+				yield return v;
+		}
+		/// <summary>
 		/// Goes to the specified target.
 		/// </summary>
 		/// <param name="labelName">Name of the label.</param>
@@ -354,24 +372,6 @@ namespace Flexpressions
 			this.DeclareLabelTarget(labelTarget);
 
 			return this;
-		}
-		/// <summary>
-		/// Gets all variables (and parameters) up through the Flexpression tree.
-		/// </summary>
-		/// <returns>The collection of variables (and parameters) up through the Flexpression tree.</returns>
-		public IEnumerable<ParameterExpression> GetVariablesInScope()
-		{
-			if (this.implicitVariables != null)
-			{
-				foreach (var v in this.implicitVariables)
-					yield return v;
-			}
-
-			foreach (var v in this.variables)
-				yield return v;
-
-			foreach (var v in this.lookupParent.GetVariablesInScope())
-				yield return v;
 		}
 		/// <summary>
 		/// Returns from the <see cref="Block&lt;TParent&gt;"/> without a value.

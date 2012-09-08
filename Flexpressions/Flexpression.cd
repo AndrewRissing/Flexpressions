@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Flexpressions.Flexpression&lt;S&gt;">
+    <Position X="0.5" Y="0.5" Width="3.75" />
+    <Members>
+      <Field Name="allowOuterVariables" Hidden="true" />
+      <Method Name="AllowOuterVariables" Hidden="true" />
+      <Method Name="AllowRethrow" Hidden="true" />
+      <Field Name="block" Hidden="true" />
+      <Method Name="CreateExpression" Hidden="true" />
+      <Field Name="dctLabelTargets" Hidden="true" />
+      <Method Name="DeclareLabelTarget" Hidden="true" />
+      <Method Name="Flexpression" Hidden="true" />
+      <Method Name="GetLoopLabel" Hidden="true" />
+      <Method Name="GetReturnLabel" Hidden="true" />
+      <Field Name="lambdaType" Hidden="true" />
+      <Field Name="returnLabel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACEBkAAAAAAEAAEABAEAAAgAAABAGAAAIAAAAAIBEA=</HashCode>
+      <FileName>Flexpression.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Flexpressions.If&lt;TParent&gt;">
+    <Position X="4.5" Y="5.25" Width="2.25" />
+    <Members>
+      <Method Name="AllowOuterVariables" Hidden="true" />
+      <Method Name="AllowRethrow" Hidden="true" />
+      <Method Name="Create" Hidden="true" />
+      <Method Name="CreateExpression" Hidden="true" />
+      <Method Name="DeclareLabelTarget" Hidden="true" />
+      <Method Name="ElseIfSafe" Hidden="true" />
+      <Field Name="expressionFalse" Hidden="true" />
+      <Field Name="expressionTrue" Hidden="true" />
+      <Method Name="GetLabelTargets" Hidden="true" />
+      <Method Name="GetLoopLabel" Hidden="true" />
+      <Method Name="GetReturnLabel" Hidden="true" />
+      <Method Name="GetVariablesInScope" Hidden="true" />
+      <Method Name="If" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Field Name="test" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAEBABAAAAAAABMABAEAAABAAABAGAIAAAABAAKQAA=</HashCode>
+      <FileName>If.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Flexpressions.Switch&lt;TParent, R&gt;">
+    <Position X="0.5" Y="3.25" Width="3.25" />
+    <Members>
+      <Method Name="AllowOuterVariables" Hidden="true" />
+      <Method Name="AllowRethrow" Hidden="true" />
+      <Method Name="AssignDefaultBody" Hidden="true" />
+      <Method Name="CaseSafe" Hidden="true" />
+      <Method Name="CreateExpression" Hidden="true" />
+      <Method Name="DeclareLabelTarget" Hidden="true" />
+      <Field Name="defaultBody" Hidden="true" />
+      <Method Name="GetLabelTargets" Hidden="true" />
+      <Method Name="GetLoopLabel" Hidden="true" />
+      <Method Name="GetReturnLabel" Hidden="true" />
+      <Method Name="GetVariablesInScope" Hidden="true" />
+      <Field Name="lstSwitchCases" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Method Name="Switch" Hidden="true" />
+      <Field Name="switchValue" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACEBAIAAEAABABFABAEIAAAAAABACAAAAAABAAMAAA=</HashCode>
+      <FileName>Switch.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Flexpressions.SwitchCase&lt;TParent, R&gt;">
+    <Position X="0.5" Y="5" Width="2.5" />
+    <Members>
+      <Method Name="AllowOuterVariables" Hidden="true" />
+      <Method Name="AllowRethrow" Hidden="true" />
+      <Field Name="caseBody" Hidden="true" />
+      <Method Name="CaseSafe" Hidden="true" />
+      <Method Name="CreateExpression" Hidden="true" />
+      <Method Name="CreateSwitchCase" Hidden="true" />
+      <Method Name="DeclareLabelTarget" Hidden="true" />
+      <Field Name="defaultBody" Hidden="true" />
+      <Method Name="GetLabelTargets" Hidden="true" />
+      <Method Name="GetLoopLabel" Hidden="true" />
+      <Method Name="GetReturnLabel" Hidden="true" />
+      <Method Name="GetVariablesInScope" Hidden="true" />
+      <Method Name="HandleDefault" Hidden="true" />
+      <Field Name="lstCaseValues" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Field Name="parentSwitch" Hidden="true" />
+      <Method Name="SwitchCase" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACEBAIAAAAAAABEABEEIAQACQABEDAAAAAQAAAMAAA=</HashCode>
+      <FileName>SwitchCase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Flexpressions.Try&lt;TParent&gt;">
+    <Position X="0.5" Y="7" Width="3.25" />
+    <Members>
+      <Method Name="AllowOuterVariables" Hidden="true" />
+      <Method Name="AllowRethrow" Hidden="true" />
+      <Method Name="Create" Hidden="true" />
+      <Method Name="CreateExpression" Hidden="true" />
+      <Method Name="DeclareLabelTarget" Hidden="true" />
+      <Field Name="finallyBlock" Hidden="true" />
+      <Method Name="GetLabelTargets" Hidden="true" />
+      <Method Name="GetLoopLabel" Hidden="true" />
+      <Method Name="GetReturnLabel" Hidden="true" />
+      <Method Name="GetVariablesInScope" Hidden="true" />
+      <Field Name="lstCatchBlocks" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Method Name="Try" Hidden="true" />
+      <Field Name="tryBlock" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAEBAAAAAAoAABGABAEAAAAAAABAGAAAAACgAAIAAA=</HashCode>
+      <FileName>Try.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Flexpressions.Block&lt;TParent&gt;">
+    <Position X="4.5" Y="0.5" Width="3.75" />
+    <Members>
+      <Method Name="AddExpression" Hidden="true" />
+      <Method Name="AllowOuterVariables" Hidden="true" />
+      <Field Name="allowRethrow" Hidden="true" />
+      <Method Name="AllowRethrow" Hidden="true" />
+      <Method Name="Block" Hidden="true" />
+      <Method Name="CreateExpression" Hidden="true" />
+      <Method Name="DeclareLabelTarget" Hidden="true" />
+      <Method Name="ForeachSafe" Hidden="true" />
+      <Method Name="GetLoopLabel" Hidden="true" />
+      <Method Name="GetReturnLabel" Hidden="true" />
+      <Method Name="IfSafe" Hidden="true" />
+      <Field Name="implicitVariables" Hidden="true" />
+      <Field Name="lookupParent" Hidden="true" />
+      <Method Name="LoopSafe" Hidden="true" />
+      <Field Name="lstExpressions" Hidden="true" />
+      <Field Name="parent" Hidden="true" />
+      <Method Name="ReturnSafe" Hidden="true" />
+      <Method Name="SetSafe" Hidden="true" />
+      <Method Name="SwitchSafe" Hidden="true" />
+      <Method Name="ThrowSafe" Hidden="true" />
+      <Method Name="TryDeclareVariable" Hidden="true" />
+      <Method Name="UsingSafe" Hidden="true" />
+      <Field Name="variables" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAoMDDAAAAgABIBEABCEB0AACAgBECgEEUQgEAAMAMI=</HashCode>
+      <FileName>Block.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
