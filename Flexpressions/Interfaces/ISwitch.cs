@@ -27,7 +27,6 @@ namespace Flexpressions.Interfaces
 	/// <summary>
 	/// The ISwitch exposes non-generic functionality of a <see cref="Switch&lt;TParent, R&gt;"/>.
 	/// </summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
 	public interface ISwitch
 	{
 		/// <summary>

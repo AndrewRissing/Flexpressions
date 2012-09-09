@@ -27,7 +27,6 @@ namespace Flexpressions.Interfaces
 	/// <summary>
 	/// The IFlexpression exposes non-generic functionality to all levels of the Flexpression tree.
 	/// </summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
 	public interface IFlexpression : IExpressionWrapper
 	{
 		/// <summary>

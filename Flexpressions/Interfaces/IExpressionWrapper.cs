@@ -26,7 +26,6 @@ namespace Flexpressions.Interfaces
 	/// <summary>
 	/// The IExpressionWrapper exposes the ability to create <see cref="Expression"/>s.
 	/// </summary>
-	[EditorBrowsable(EditorBrowsableState.Never)]
 	public interface IExpressionWrapper
 	{
 		/// <summary>
